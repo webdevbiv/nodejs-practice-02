@@ -1,24 +1,18 @@
-import dotenv from 'dotenv';
+import getEnv from './utils/getEnv.js';
 import mongoose from 'mongoose';
 
-// Load environment variables from .env file
-dotenv.config();
-
-const pass = process.env.DB_PASSWORD;
+const DB_PASSWORD = getEnv('DB_PASSWORD');
 
 // Function to connect to MongoDB
 // Ensure that the password is correctly set in the .env file
 // and that the connection string is properly formatted.
 async function connectToDatabase() {
-  const dbUri = `mongodb+srv://webdevbiv:${pass}@practice01.pssemde.mongodb.net/university?retryWrites=true&w=majority&appName=practice01`;
+  const dbUri = getEnv('DB_URI').replace('${DB_PASSWORD}', DB_PASSWORD);
 
   await mongoose
-    .connect(dbUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(dbUri)
     .then(() => {
-      console.log('Connected to MongoDB');
+      console.log('Connected to MongoDB successfully "/university" database.');
     })
     .catch((err) => {
       console.error('Error connecting to MongoDB:', err);

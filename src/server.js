@@ -1,18 +1,21 @@
+import getEnv from './utils/getEnv.js';
 import app from './app.js';
 import { connectToDatabase } from './db.js';
 
-connectToDatabase();
+async function bootstrap() {
+  await connectToDatabase();
 
-function bootstrap() {
-  const PORT = process.env.PORT || 8080;
+  const PORT = getEnv('PORT', 8080);
 
   app.listen(PORT, (error) => {
     if (error) {
       console.error(`Error starting server: ${error.message}`);
+    } else {
+      console.log(`Server is running on port ${PORT}`);
     }
-
-    console.log(`Server is running on port ${PORT}`);
   });
 }
 
-bootstrap();
+bootstrap().catch((error) =>
+  console.error(`Error during bootstrap: ${error.message}`),
+);
