@@ -1,4 +1,7 @@
 import app from './app.js';
+import { connectToDatabase } from './db.js';
+
+connectToDatabase();
 
 function bootstrap() {
   const PORT = process.env.PORT || 8080;

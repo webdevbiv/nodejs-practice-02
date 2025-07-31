@@ -1,13 +1,16 @@
-import e from 'express';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const pass = process.env.DB_PASSWORD;
 
+// Function to connect to MongoDB
+// Ensure that the password is correctly set in the .env file
+// and that the connection string is properly formatted.
 async function connectToDatabase() {
-  const dbUri =
-    'mongodb+srv://webdevbiv:' +
-    pass +
-    '@practice01.pssemde.mongodb.net/university?retryWrites=true&w=majority&appName=practice01'; // Replace with your MongoDB URI
+  const dbUri = `mongodb+srv://webdevbiv:${pass}@practice01.pssemde.mongodb.net/university?retryWrites=true&w=majority&appName=practice01`;
 
   await mongoose
     .connect(dbUri, {
@@ -22,4 +25,6 @@ async function connectToDatabase() {
     });
 }
 
+// Export the connect function for use in other modules
+// Example usage: import { connectToDatabase } from './db.js'; connectToDatabase();
 export { connectToDatabase };
